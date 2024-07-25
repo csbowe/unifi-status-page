@@ -12,8 +12,8 @@ class UnifiDeviceRecord:
     device_up: bool
 
 class UnifiApi:
-    def __init__(self, unifi_controller_host: str, username: str, password: str) -> None:
-        base_url = f"https://{unifi_controller_host}:8443"
+    def __init__(self, unifi_controller_uri: str, username: str, password: str) -> None:
+        base_url = f"https://{unifi_controller_uri}"
         self._login_url = base_url + "/api/auth/login"
         self._device_url = base_url + "/proxy/network/api/s/default/stat/device"
         self._credentials = {

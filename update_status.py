@@ -7,7 +7,7 @@ from modules.unifi import UnifiApi
 parser = argparse.ArgumentParser(description='Sync unifi device statuses into a remote status page app.')
 
 # Add arguments
-parser.add_argument('--unifi-host', required=True)
+parser.add_argument('--unifi-uri', required=True)
 parser.add_argument('--unifi-user', required=True)
 parser.add_argument('--unifi-pass', required=True)
 parser.add_argument('--healthchecks-api-key', required=True)
@@ -17,9 +17,9 @@ args = parser.parse_args()
 healthchecks_api_key = args.healthchecks_api_key
 unifi_user = args.unifi_user
 unifi_pass = args.unifi_pass
-unifi_host = args.unifi_host
+unifi_uri = args.unifi_uri
 
-unifi = UnifiApi(unifi_host, unifi_user, unifi_pass)
+unifi = UnifiApi(unifi_uri, unifi_user, unifi_pass)
 status_service = HealthChecksApi(healthchecks_api_key)
 
 unifi_records = unifi.get_devices()
