@@ -30,7 +30,7 @@ class UnifiApi:
 
         # Check if login was successful (status code 200)
         if login_response.status_code != 200:
-            print(f"Unifi login unsuccessful.  Status code: {response.status_code}")
+            print(f"Unifi login unsuccessful.  Status code: {login_response.status_code}")
             login_response.raise_for_status()
 
         # Now perform GET request to the data endpoint using the session
