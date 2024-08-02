@@ -21,12 +21,18 @@ python update_status.py
 ## Installation on Unifi OS
 SSH into your Unifi OS console and perform the following steps:
 1. Install git
-`root@unifi-console:~# sudo apt install git`
+```
+root@unifi-console:~# sudo apt install git
+```
 2. Clone this repo
-`root@unifi-console:~# cd /data`
-`root@unifi-console:/data# git clone https://github.com/csbowe/unifi-status-page.git`
+```
+root@unifi-console:~# cd /data
+root@unifi-console:/data# git clone https://github.com/csbowe/unifi-status-page.git
+```
 3. Test the script
-`root@unifi-console:/data# python update_status.py --unifi-user "localuser" --unifi-pass "localpass"  --uptimerobot-api-key "yourapikey"`
+```
+root@unifi-console:/data# python update_status.py --unifi-user "localuser" --unifi-pass "localpass"  --uptimerobot-api-key "yourapikey"
+```
 
 ## Known Issues
 1. Customizations to Unifi OS will get wiped out when the device updates.  Files in /data are persisted but the installation of git and cron schedules are not persisted.
