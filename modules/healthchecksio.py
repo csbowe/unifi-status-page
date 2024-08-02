@@ -1,13 +1,13 @@
 import requests
 from .unifi import UnifiDeviceRecord
+from .statusservicebase import StatusService
 
-class HealthChecksApi:
-    DEFAULT_GRACE_SECONDS = 300
-    DEFAULT_TIMEOUT_SECONDS = 300
+class HealthChecksApi(StatusService):
     DEFAULT_CHANNELS = "*"
     
-    def __init__(self, api_key: str) -> None:
+    def __init__(self, api_key: str, timeout_seconds: int) -> None:
         self.api_key = api_key
+        self.timeout_seconds = timeout_seconds
         self.base_url = "https://healthchecks.io/api/v1/"
         self.headers = {
             "X-Api-Key": self.api_key
@@ -31,8 +31,8 @@ class HealthChecksApi:
             "slug": slug,
             "tags": tags,
             "channels": self.DEFAULT_CHANNELS,
-            "grace": self.DEFAULT_GRACE_SECONDS,
-            "timeout": self.DEFAULT_TIMEOUT_SECONDS,
+            "grace": self.timeout_seconds,
+            "timeout": self.timeout_seconds,
             "unique": [ "slug" ]
         }
 
@@ -46,11 +46,11 @@ class HealthChecksApi:
             
         create_response = requests.post(f"{self.base_url}checks/", headers=self.headers, json=payload)
         if create_response.status_code <= 201:
-            print(f"Created/updated check with slug '{slug}' => {create_response.status_code}")
+            print(f"\tCreate/update check '{slug}' => {create_response.status_code}")
             new_check = create_response.json()
             return new_check
         else:
-            print(f"Failed to create check. Status code: {create_response.status_code}")
+            print(f"\tFailed to create check. Status code: {create_response.status_code}")
             create_response.raise_for_status()
 
     def notify(self, unifi_device: UnifiDeviceRecord) -> str:

@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 @dataclass
 class UnifiDeviceRecord:
