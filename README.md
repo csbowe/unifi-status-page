@@ -31,7 +31,7 @@ root@unifi-console:/data# git clone https://github.com/csbowe/unifi-status-page.
 ```
 3. Test the script
 ```
-root@unifi-console:/data# python update_status.py --unifi-user "localuser" --unifi-pass "localpass"  --uptimerobot-api-key "yourapikey"
+root@unifi-console:/data# python ./unifi-status-page/update_status.py --unifi-user "localuser" --unifi-pass "localpass"  --uptimerobot-api-key "yourapikey"
 ```
 
 ## Known Issues
