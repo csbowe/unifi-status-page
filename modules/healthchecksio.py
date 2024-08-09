@@ -28,8 +28,8 @@ class HealthChecksApi(StatusService):
         slug = unifi_device.site_id + '-' + unifi_device.device_id
         tags = unifi_device.type
         channels = self.DEFAULT_CHANNELS
-        grace_seconds = self.timeout_seconds * 3
-        timeout_seconds = self.timeout_seconds * 2
+        grace_seconds = self.timeout_seconds
+        timeout_seconds = self.timeout_seconds
 
 
         existing_check = None
