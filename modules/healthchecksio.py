@@ -28,7 +28,8 @@ class HealthChecksApi(StatusService):
         slug = unifi_device.site_id + '-' + unifi_device.device_id
         tags = unifi_device.type
         channels = self.DEFAULT_CHANNELS
-        grace_timeout = self.timeout_seconds
+        grace_seconds = self.timeout_seconds * 3
+        timeout_seconds = self.timeout_seconds * 2
 
 
         existing_check = None
@@ -36,8 +37,8 @@ class HealthChecksApi(StatusService):
             if (check.get("slug") == slug):
                 existing_check = check
                 if (check.get("name") == name and
-                    check.get("grace") == grace_timeout and
-                    check.get("timeout") == grace_timeout):
+                    check.get("grace") == grace_seconds and
+                    check.get("timeout") == timeout_seconds):
                     return check
         
         # union tags so we don't remove tags when updating existing check
@@ -53,8 +54,8 @@ class HealthChecksApi(StatusService):
             "slug": slug,
             "tags": tags,
             "channels": channels,
-            "grace": grace_timeout,
-            "timeout": grace_timeout,
+            "grace": grace_seconds,
+            "timeout": timeout_seconds,
             "unique": [ "slug" ]
         }
         create_response = requests.post(f"{self.base_url}checks/", headers=self.headers, json=payload)
