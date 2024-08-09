@@ -43,7 +43,7 @@ class HealthChecksApi(StatusService):
         # union tags so we don't remove tags when updating existing check
         if (existing_check != None):
             set_old = set(existing_check.get("tags").split())
-            set_new = set(payload.get("tags").split())
+            set_new = set(tags.split())
             combined_set = set_new.union(set_old)
             tags = " ".join(combined_set)
         
@@ -65,6 +65,7 @@ class HealthChecksApi(StatusService):
             return new_check
         else:
             print(f"\tFailed to create check. Status code: {create_response.status_code}")
+            print(payload)
             create_response.raise_for_status()
 
     def notify(self, unifi_device: UnifiDeviceRecord) -> str:

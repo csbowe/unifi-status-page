@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description='Sync unifi device statuses into a 
 parser.add_argument('--unifi-uri', default='127.0.0.1')
 parser.add_argument('--unifi-user', required=True)
 parser.add_argument('--unifi-pass', required=True)
-parser.add_argument('--expected-notify-seconds', default=300)
+parser.add_argument('--expected-notify-seconds', default=300, type=int)
 parser.add_argument('--healthchecks-api-key', required=False)
 parser.add_argument('--uptimerobot-api-key', required=False)
 args = parser.parse_args()
