@@ -75,7 +75,8 @@ class UnifiApi:
                             site_id = unifi_device_record.site_id,
                             device_up = (unifi_device_record.device_up and 
                                          wan.get("enable") == True and
-                                         wan.get("up") == True)
+                                         wan.get("up") == True and
+                                         wan.get("ip") != "0.0.0.0")
                         )
                         filtered_devices.append(wan_device_record)
 
