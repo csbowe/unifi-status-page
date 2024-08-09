@@ -35,6 +35,6 @@ root@unifi-console:/data# python ./unifi-status-page/update_status.py --unifi-us
 ```
 
 ## Known Issues
-1. Customizations to Unifi OS will get wiped out when the device updates.  Files in /data are persisted but the installation of git and cron schedules are not persisted.
+1. Customizations to Unifi OS will get wiped out when the device updates.  Files in /data are persisted but the installation of git and cron schedules are not persisted.  I may run this from a PI or investigate persistent cron but for the moment the CloudKey G2+ running Unifi OS is my only option.
 1. Uptimerobot integration uses the friendly name to lookup the monitor heartbeat URL.  Changing the name of a Unifi devics will create a new monitor.
 1. Healthchecks/monitors are auto-created but not auto-deleted.  
