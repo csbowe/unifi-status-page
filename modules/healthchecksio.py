@@ -23,28 +23,42 @@ class HealthChecksApi(StatusService):
             response.raise_for_status()
 
     def _get_check(self, unifi_device: UnifiDeviceRecord):
+        # Map Unifi device to healthcheck properties
+        name = unifi_device.name
         slug = unifi_device.site_id + '-' + unifi_device.device_id
         tags = unifi_device.type
+        channels = self.DEFAULT_CHANNELS
+        grace_timeout = self.timeout_seconds
 
+
+        existing_check = None
+        for check in self.checks:
+            if (check.get("slug") == slug):
+                existing_check = check
+                if (check.get("name") == name and
+                    check.get("grace") == grace_timeout and
+                    check.get("timeout") == grace_timeout):
+                    return check
+        
+        # union tags so we don't remove tags when updating existing check
+        if (existing_check != None):
+            set_old = set(existing_check.get("tags").split())
+            set_new = set(payload.get("tags").split())
+            combined_set = set_new.union(set_old)
+            tags = " ".join(combined_set)
+        
+        # Create new check or update existing one
         payload = {
-            "name": unifi_device.name,
+            "name": name,
             "slug": slug,
             "tags": tags,
-            "channels": self.DEFAULT_CHANNELS,
-            "grace": self.timeout_seconds,
-            "timeout": self.timeout_seconds,
+            "channels": channels,
+            "grace": grace_timeout,
+            "timeout": grace_timeout,
             "unique": [ "slug" ]
         }
-
-        for check in self.checks:
-            if (check.get("slug") == payload.get("slug") and
-                check.get("name") == payload.get("name") and
-                check.get("tags") == payload.get("tags") and
-                check.get("grace") == payload.get("grace") and
-                check.get("timeout") == payload.get("timeout")):
-                return check
-            
         create_response = requests.post(f"{self.base_url}checks/", headers=self.headers, json=payload)
+
         if create_response.status_code <= 201:
             print(f"\tCreate/update check '{slug}' => {create_response.status_code}")
             new_check = create_response.json()
